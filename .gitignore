@@ -1,0 +1,17 @@
+# VMware files
+*.vmdk
+*.vmx
+*.vmem
+*.vmss
+*.vmsn
+*.nvram
+*.log
+
+# Secrets
+.env
+*.key
+*.pem
+
+# Network captures
+*.pcap
+*.pcapng
