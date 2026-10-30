@@ -1,52 +1,60 @@
-# Laboratoire Linux et réseau
+# Debian OS - réseau et SSH
 
-Ce projet me permet de pratiquer la configuration d’un environnement Linux virtualisé et les bases du réseau.
+## Objectif
 
-## Configuration de Debian
+J’ai installé Debian dans VMware et configuré le réseau pour pouvoir communiquer avec une autre machine virtuelle.
 
-J’ai installé Debian sur VMware Workstation et configuré la machine virtuelle avec un réseau en mode NAT.
-
-### Réseau
+## Configuration réseau
 
 L’interface réseau utilisée est `ens33`.
 
-La machine virtuelle a reçu automatiquement une adresse IPv4 via DHCP :
+Debian a reçu une adresse IPv4 avec DHCP :
 
 ```text
 192.168.39.129/24
 ```
 
-J’ai vérifié la configuration avec :
+La machine utilise le réseau NAT de VMware.
+
+## Vérification du réseau
+
+J’ai utilisé :
 
 ```bash
 ip a
 ```
 
-![Configuration réseau Debian](01-debian-network.png)
+pour vérifier l’adresse IP et l’état de l’interface réseau.
 
-### SSH
+## Service SSH
 
-J’ai installé OpenSSH Server afin de pouvoir me connecter à Debian à distance.
-
-J’ai vérifié l’état du service avec :
+J’ai vérifié que le serveur SSH était actif avec :
 
 ```bash
 systemctl status ssh
 ```
 
-Le service SSH est actif et activé au démarrage.
+Le service était :
 
-![Service SSH](02-ssh-service.png)
+```text
+active (running)
+```
 
-J’ai ensuite vérifié que SSH écoute sur le port 22 :
+## Vérification du port SSH
+
+J’ai utilisé :
 
 ```bash
 sudo ss -tulpn | grep :22
 ```
 
-![Port SSH 22](03-ssh-port-22.png)
+pour vérifier que le port `22` était en écoute.
 
-Enfin, j’ai testé une connexion SSH avec :
+Le port `22/TCP` est utilisé par SSH.
+
+## Test de connexion SSH
+
+Depuis Parrot OS, j’ai testé une connexion SSH vers Debian avec :
 
 ```bash
 ssh ninar@192.168.39.129
@@ -54,15 +62,10 @@ ssh ninar@192.168.39.129
 
 La connexion a fonctionné correctement.
 
-![Connexion SSH](04-ssh-connection.png)
+## Ce que j’ai appris
 
-## Outils utilisés
-
-- VMware Workstation
-- Debian
-- OpenSSH
-- Linux terminal
-
-## Suite du projet
-
-La prochaine étape consiste à ajouter une machine Parrot OS au laboratoire afin de tester la communication entre les machines et d’effectuer des analyses réseau avec Nmap et Wireshark.
+- vérifier une adresse IP sous Linux ;
+- comprendre le rôle de DHCP ;
+- vérifier l’état d’un service avec `systemctl` ;
+- vérifier un port avec `ss` ;
+- utiliser SSH entre deux machines Linux.
